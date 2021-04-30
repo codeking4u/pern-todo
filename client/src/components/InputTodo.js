@@ -1,10 +1,36 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
 
 const InputTodo = () => {
+
+    const [description, setDescription ] = useState("");
+
+    const onFormSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const body = { description };
+            const response = await fetch("http://localhost:5000/todos", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+            console.log(response)
+
+        } catch (err) {
+            console.error(err);
+        }
+    }
     return (
         <Fragment>
-            <h1>Todo app </h1>
-
+          <h1 className="text-center mt-5">Todo app </h1>
+          <form className="d-flex mt-5" onSubmit = {  onFormSubmit }>
+            <input 
+                className="form-control" 
+                type="text" 
+                value={description}
+                onChange = { e => setDescription(e.target.value) }
+            />
+            <button className="btn btn-primary">Add</button>  
+          </form>
         </Fragment>
         
     )
